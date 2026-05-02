@@ -1,0 +1,50 @@
+name: Terraform CI
+
+on:
+  push:
+    branches:
+      - devn
+      - prod
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Debug root
+        run: |
+          pwd
+          ls -la
+
+# DEV
+      - name: Debug dev folder
+        if: github.ref_name == 'devn'
+        run: ls -la dev
+
+
+      - name: Terraform initly(dev)
+        if: github.ref_name == 'devn'
+        working-directory: ./dev
+        run: terraform init
+
+      - name: Terraform apply(dev)
+        if: github.ref_name == 'devn'
+        working-directory: ./dev
+        run: terraform apply -auto-approve -input=false
+
+      - name: Terraform Apply (Prod)
+        if: github.ref_name == 'prod'
+        working-directory: ./prod
+        run: terraform apply -auto-approve -input=false
