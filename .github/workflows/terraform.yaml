@@ -25,16 +25,16 @@ jobs:
           aws-region: us-east-1
 
       - name: Terraform apply(dev)
-        if: github.ref == 'refs/heads/devn'
-        working-directory: ./AdvancedModules/dev
+        if: github.ref == 'devn'
+        working-directory: ./ADVANCEDMODULES/dev
         run: terraform init
 
       - name: Terraform apply(dev)
-        if: github.ref == 'refs/heads/devn'
-        working-directory: ./AdvancedModules/dev
+        if: github.ref == 'devn'
+        working-directory: ./ADVANCEDMODULES/dev
         run: terraform apply -auto-approve -input=false
 
       - name: Terraform Apply (Prod)
-        if: github.ref == 'refs/heads/prod'
-        working-directory: ./AdvancedModules/prod
+        if: github.ref == 'prod'
+        working-directory: ./ADVANCEDMODULES/prod
         run: terraform apply -auto-approve -input=false
