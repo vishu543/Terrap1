@@ -26,15 +26,15 @@ jobs:
 
       - name: Terraform apply(dev)
         if: github.ref == 'refs/heads/devn'
-        working-directory: ./dev
+        working-directory: ./AdvancedModules/dev
         run: terraform init
 
       - name: Terraform apply(dev)
         if: github.ref == 'refs/heads/devn'
-        working-directory: ./dev
+        working-directory: ./AdvancedModules/dev
         run: terraform apply -auto-approve -input=false
 
       - name: Terraform Apply (Prod)
         if: github.ref == 'refs/heads/prod'
-        working-directory: ./prod
+        working-directory: ./AdvancedModules/prod
         run: terraform apply -auto-approve -input=false
